@@ -64,7 +64,7 @@ async function performWordPressLogin(): Promise<string | null> {
     return wpSessionCache.cookies;
   }
 
-  const wpApiUrl = process.env.WP_API_URL;
+  const wpApiUrl = process.env.WORDPRESS_GRAPHQL_URL;
   const previewUser = process.env.preview_user_un;
   const previewPass = process.env.preview_user_pass;
   
