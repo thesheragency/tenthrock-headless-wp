@@ -190,15 +190,28 @@ export async function POST(request: NextRequest) {
       console.error('GF_CONSUMER_KEY / GF_CONSUMER_SECRET not configured — submission will likely fail.');
     }
 
+    // Gravity Forms answers a form with a redirect confirmation with a 302
+    // (Location = the confirmation URL) and the JSON result in the body.
+    // Don't follow it: following re-requests the thank-you page, which fails
+    // or returns HTML. The JSON body already holds the result.
     const response = await fetch(submitUrl, {
       method: 'POST',
       headers,
       body: wpFormData,
+      redirect: 'manual',
     });
 
-    const data = await response.json();
+    const isRedirect = response.status >= 300 && response.status < 400;
+    const rawBody = await response.text();
+    let data: any;
+    try {
+      data = JSON.parse(rawBody);
+    } catch {
+      console.error('Gravity Forms REST API returned non-JSON:', response.status, rawBody.slice(0, 200));
+      return NextResponse.json({ error: 'Submission failed' }, { status: 502 });
+    }
 
-    if (!response.ok) {
+    if (!response.ok && !isRedirect) {
       console.error('Gravity Forms REST API error:', data);
       return NextResponse.json(
         { error: data.message || 'Submission failed', validation_messages: data.validation_messages },
