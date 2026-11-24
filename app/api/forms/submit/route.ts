@@ -49,7 +49,7 @@ function checkRateLimit(ip: string): boolean {
 }
 
 function getWpClient(): GraphQLClient {
-  const wpApiUrl = (process.env.WP_API_URL || process.env.WORDPRESS_GRAPHQL_URL);
+  const wpApiUrl = (process.env.WORDPRESS_GRAPHQL_URL || process.env.WP_API_URL);
   if (!wpApiUrl) {
     throw new Error('WP_API_URL environment variable is not set');
   }

@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import { getLegacyRedirectTarget } from '@/lib/config/url-redirects';
 
 function getWordPressBaseUrl(): string {
-  const wpApiUrl = (process.env.WP_API_URL || process.env.WORDPRESS_GRAPHQL_URL) || '';
+  const wpApiUrl = (process.env.WORDPRESS_GRAPHQL_URL || process.env.WP_API_URL) || '';
   return wpApiUrl.replace(/\/graphql\/?$/, '');
 }
 

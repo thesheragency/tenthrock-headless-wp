@@ -251,7 +251,7 @@ interface WpSeo {
 
 function rewriteSchemaHost(raw?: string): string | undefined {
   if (!raw) return undefined;
-  const wpOrigin = ((process.env.WP_API_URL || process.env.WORDPRESS_GRAPHQL_URL) || '').replace(/\/graphql\/?$/, '').replace(/\/$/, '');
+  const wpOrigin = ((process.env.WORDPRESS_GRAPHQL_URL || process.env.WP_API_URL) || '').replace(/\/graphql\/?$/, '').replace(/\/$/, '');
   const siteOrigin = (process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://www.tenthrock.com').replace(/\/$/, '');
   if (!wpOrigin || wpOrigin === siteOrigin) return raw;
   const escaped = wpOrigin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -286,7 +286,7 @@ interface WpLandingSectionsResponse {
  */
 async function getWpClient() {
   const { GraphQLClient } = await import('graphql-request');
-  const wpApiUrl = (process.env.WP_API_URL || process.env.WORDPRESS_GRAPHQL_URL);
+  const wpApiUrl = (process.env.WORDPRESS_GRAPHQL_URL || process.env.WP_API_URL);
   
   if (!wpApiUrl) {
     throw new Error('WP_API_URL environment variable is not set');
@@ -313,7 +313,7 @@ async function getWpClient() {
  */
 async function getPreviewWpClient() {
   const { GraphQLClient } = await import('graphql-request');
-  const wpApiUrl = (process.env.WP_API_URL || process.env.WORDPRESS_GRAPHQL_URL);
+  const wpApiUrl = (process.env.WORDPRESS_GRAPHQL_URL || process.env.WP_API_URL);
   
   if (!wpApiUrl) {
     throw new Error('WP_API_URL environment variable is not set');

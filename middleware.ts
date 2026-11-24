@@ -74,7 +74,7 @@ async function getSlugRoutingData(): Promise<SlugRoutingData> {
     return slugRoutingCache;
   }
 
-  const wpApiUrl = (process.env.WP_API_URL || process.env.WORDPRESS_GRAPHQL_URL);
+  const wpApiUrl = (process.env.WORDPRESS_GRAPHQL_URL || process.env.WP_API_URL);
   if (!wpApiUrl) {
     slugLastFetch = now;
     return slugRoutingCache;
@@ -128,7 +128,7 @@ async function getRedirects(): Promise<Redirect[]> {
     return redirectsCache;
   }
 
-  const wpApiUrl = (process.env.WP_API_URL || process.env.WORDPRESS_GRAPHQL_URL);
+  const wpApiUrl = (process.env.WORDPRESS_GRAPHQL_URL || process.env.WP_API_URL);
   if (!wpApiUrl) {
     lastFetch = now;
     return redirectsCache;
