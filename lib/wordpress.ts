@@ -64,7 +64,7 @@ async function performWordPressLogin(): Promise<string | null> {
     return wpSessionCache.cookies;
   }
 
-  const wpApiUrl = process.env.WP_API_URL;
+  const wpApiUrl = (process.env.WP_API_URL || process.env.WORDPRESS_GRAPHQL_URL);
   const previewUser = process.env.preview_user_un;
   const previewPass = process.env.preview_user_pass;
   
@@ -215,7 +215,7 @@ const getWpClient = (authToken?: string) => {
 // WordPress GraphQL client for preview/draft requests with WordPress user authentication
 // Uses cookie-based auth to work with staging sites that have nginx Basic Auth
 async function getPreviewClient(): Promise<GraphQLClient> {
-  const wpApiUrl = process.env.WP_API_URL;
+  const wpApiUrl = (process.env.WP_API_URL || process.env.WORDPRESS_GRAPHQL_URL);
   
   if (!wpApiUrl) {
     throw new Error('WP_API_URL environment variable is not set');
@@ -1406,7 +1406,7 @@ export async function fetchPagePreviewById(
 // Fetch redirects from Redirection plugin (by John Godley)
 // Uses custom mu-plugin endpoint for headless access (built-in REST API requires session auth)
 export async function fetchRedirects(): Promise<WpRedirect[]> {
-  const wpApiUrl = process.env.WP_API_URL;
+  const wpApiUrl = (process.env.WP_API_URL || process.env.WORDPRESS_GRAPHQL_URL);
   if (!wpApiUrl) {
     console.warn('WP_API_URL not set, cannot fetch redirects');
     return [];
